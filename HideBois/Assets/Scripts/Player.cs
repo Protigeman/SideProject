@@ -3,9 +3,10 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    private float moveSpd = 1.0f;
+    public float moveSpd = 1.0f;
     private Rigidbody rb;
     private float disToGround = 0.5f;
+    public int health = 10;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -13,6 +14,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        Direction();
 
         if (Input.GetKey(KeyCode.Space) && isGrounded())
         {
@@ -20,37 +22,46 @@ public class Player : MonoBehaviour
             rb.velocity += jumpVelocity;
         }
     }
-
+    public void Direction()
+    {
+        if(Input.mousePosition.x > 0)
+        {
+            transform.Rotate(Vector3.up);
+        }
+        
+    }
     public void Movement()
     {
         if (Input.GetKey(KeyCode.W))
         {
-            Vector2 position = this.transform.position;
-            position.x += moveSpd;
-            this.transform.position = position;
+            transform.Translate(new Vector2(moveSpd * Time.deltaTime, 0));
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            Vector2 position = this.transform.position;
-            position.x -= moveSpd;
-            this.transform.position = position;
+            transform.Translate(new Vector2(-1 * moveSpd * Time.deltaTime, 0));
         }
         if (Input.GetKey(KeyCode.A))
         {
-            Vector2 position = this.transform.position;
-            position.y += moveSpd;
-            this.transform.position = position;
+            transform.Translate(new Vector2(0, moveSpd * Time.deltaTime));
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            Vector2 position = this.transform.position;
-            position.y -= moveSpd;
-            this.transform.position = position;
+            transform.Translate(new Vector2(0,-1*moveSpd * Time.deltaTime));
         }
     }
 
     bool isGrounded()
     {
         return Physics.Raycast(transform.position, Vector3.down, disToGround);
+    }
+
+    public void Damage(int dmg)
+    {
+        this.health -= dmg;
+    }
+
+    public void Destroy()
+    {
+        Destroy(this.gameObject);
     }
 }
