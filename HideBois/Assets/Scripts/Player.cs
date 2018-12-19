@@ -16,35 +16,35 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && isGrounded())
         {
-            Vector3 jumpVelocity = new Vector3(0f, moveSpd, 0f);
+            Vector3 jumpVelocity = new Vector3(0f, 0f, moveSpd);
             rb.velocity += jumpVelocity;
         }
     }
 
-    void Movement()
+    public void Movement()
     {
         if (Input.GetKey(KeyCode.W))
         {
-            Vector3 position = this.transform.position;
+            Vector2 position = this.transform.position;
             position.x += moveSpd;
             this.transform.position = position;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            Vector3 position = this.transform.position;
+            Vector2 position = this.transform.position;
             position.x -= moveSpd;
             this.transform.position = position;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            Vector3 position = this.transform.position;
-            position.z += moveSpd;
+            Vector2 position = this.transform.position;
+            position.y += moveSpd;
             this.transform.position = position;
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            Vector3 position = this.transform.position;
-            position.z -= moveSpd;
+            Vector2 position = this.transform.position;
+            position.y -= moveSpd;
             this.transform.position = position;
         }
     }
