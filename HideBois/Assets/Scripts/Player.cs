@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Player : MonoBehaviour
@@ -6,6 +7,7 @@ public class Player : MonoBehaviour
     public float moveSpd = 1.0f;
     private Rigidbody rb;
     private float disToGround = 0.5f;
+    public Text healthText;
     public int health = 10;
     void Start()
     {
@@ -54,7 +56,7 @@ public class Player : MonoBehaviour
     {
         return Physics.Raycast(transform.position, Vector3.down, disToGround);
     }
-
+    
     public void Damage(int dmg)
     {
         this.health -= dmg;
@@ -63,5 +65,10 @@ public class Player : MonoBehaviour
     public void Destroy()
     {
         Destroy(this.gameObject);
+    }
+
+    public void DisplayHealth(int health)
+    {
+        healthText.text = "Health: " + health;
     }
 }

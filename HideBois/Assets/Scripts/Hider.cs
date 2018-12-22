@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Hider : Player {
     public int dashDelay = 3;
+    public int dashCount = 0;
     private float lastDashTime = 0f;
     private bool canDash = true;
 	// Use this for initialization
@@ -13,9 +14,14 @@ public class Hider : Player {
 	void Update () {
         base.Movement();
         Dash();
+        
         if(this.health <= 0)
         {
             base.Destroy();
+        }
+        else
+        {
+            base.DisplayHealth(health);
         }
 	}
 
@@ -23,12 +29,17 @@ public class Hider : Player {
     {
         if (Input.GetKeyDown(KeyCode.Space) && canDash)
         {
-            transform.Translate(new Vector2(.2f, 0));
+            transform.Translate(new Vector2(.3f, 0));
             lastDashTime = Time.time;
-            canDash = false;
+            dashCount++;
+            if (dashCount>=2)
+            {
+                canDash = false;
+            }
         }
         if ((Time.time - lastDashTime > dashDelay) && !canDash)
         {
+            dashCount = 0;
             canDash = true;
         }
     }
@@ -38,7 +49,17 @@ public class Hider : Player {
         {
             base.Damage(2);
             transform.Translate(new Vector2(-.1f, 0));
-            Debug.Log("damaged");
+            Debug.Log("damaged by Spike");
         }
+        if(col.gameObject.tag == "Seeker")
+        {
+            base.Damage(4);
+            transform.Translate(new Vector2(.3f, 0));
+            Debug.Log("damaged by Seeker");
+        }
+    }
+    public int getHealth()
+    {
+        return health;
     }
 }
